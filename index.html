@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Contact Form</title>
+</head>
+
+<body>
+
+<h2>Contact Form</h2>
+
+<form id="form">
+  <input type="text" name="name" placeholder="Name" required><br><br>
+  <input type="email" name="email" placeholder="Email" required><br><br>
+  <textarea name="message" placeholder="Message"></textarea><br><br>
+
+  <button type="submit">Submit</button>
+</form>
+
+<p id="status"></p>
+
+<script>
+
+const scriptURL = "PASTE_YOUR_WEB_APP_URL";
+const form = document.getElementById("form");
+
+form.addEventListener("submit", e => {
+
+  e.preventDefault();
+
+  fetch(scriptURL, {
+    method: "POST",
+    body: new FormData(form)
+  })
+  .then(response => {
+    document.getElementById("status").innerHTML = "Submitted Successfully!";
+    form.reset();
+  })
+  .catch(error => console.error(error));
+
+});
+
+</script>
+
+</body>
+</html>
