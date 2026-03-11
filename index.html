@@ -1,46 +1,159 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Contact Form</title>
+<title>L&D Training Form</title>
+
+<style>
+
+body{
+font-family: Arial;
+margin:40px;
+}
+
+input,select{
+padding:8px;
+margin:5px;
+}
+
+.row{
+border:1px solid #ccc;
+padding:10px;
+margin-bottom:10px;
+}
+
+button{
+padding:8px 15px;
+margin-top:10px;
+cursor:pointer;
+}
+
+.addBtn{
+background:#1976d2;
+color:white;
+border:none;
+}
+
+.submitBtn{
+background:#2e7d32;
+color:white;
+border:none;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<h2>Contact Form</h2>
+<h2>Learning & Development Intervention Form</h2>
 
 <form id="form">
-  <input type="text" name="name" placeholder="Name" required><br><br>
-  <input type="email" name="email" placeholder="Email" required><br><br>
-  <textarea name="message" placeholder="Message"></textarea><br><br>
 
-  <button type="submit">Submit</button>
+<h3>Employee Information</h3>
+
+<input type="text" name="name" placeholder="Employee Name" required><br>
+
+<input type="text" name="position" placeholder="Position" required><br>
+
+<select name="sex">
+<option value="">Sex / Gender</option>
+<option value="Male">Male</option>
+<option value="Female">Female</option>
+</select><br>
+
+<input type="text" name="pwdip" placeholder="PWD / IP"><br><br>
+
+
+<h3>L & D Interventions</h3>
+
+<div id="ldContainer">
+
+<div class="row">
+
+<input type="text" name="intervention[]" placeholder="L & D Intervention">
+
+<input type="text" name="date[]" placeholder="Inclusive Date">
+
+<input type="number" name="hours[]" placeholder="Training Hours">
+
+<select name="type[]">
+<option value="">Type of L & D</option>
+<option value="Technical">Technical</option>
+<option value="Foundational">Foundational</option>
+<option value="Managerial">Managerial</option>
+</select>
+
+<input type="text" name="conducted[]" placeholder="Conducted By">
+
+</div>
+
+</div>
+
+<button type="button" class="addBtn" onclick="addLD()">+ Add L & D</button>
+
+<br><br>
+
+<button type="submit" class="submitBtn">Submit</button>
+
 </form>
 
 <p id="status"></p>
 
+
 <script>
 
-const scriptURL = "https://script.google.com/macros/s/AKfycbxVfBnd1r9_N9JChGrwsJrYzEEb6METyQw3duM2hs88HJqDbipKpWrFVVckR07Q3iiz/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbxFcY0N6hHrqReRodMwmrfjqNSwSIZ8Ilqes0nY3Ppn/dev";
+
+function addLD(){
+
+const container = document.getElementById("ldContainer");
+
+const row = document.createElement("div");
+row.className = "row";
+
+row.innerHTML = `
+
+<input type="text" name="intervention[]" placeholder="L & D Intervention">
+
+<input type="text" name="date[]" placeholder="Inclusive Date">
+
+<input type="number" name="hours[]" placeholder="Training Hours">
+
+<select name="type[]">
+<option value="">Type of L & D</option>
+<option value="Technical">Technical</option>
+<option value="Foundational">Foundational</option>
+<option value="Managerial">Managerial</option>
+</select>
+
+<input type="text" name="conducted[]" placeholder="Conducted By">
+
+`;
+
+container.appendChild(row);
+
+}
+
+
 const form = document.getElementById("form");
 
 form.addEventListener("submit", e => {
 
-  e.preventDefault();
+e.preventDefault();
 
-  fetch(scriptURL, {
-    method: "POST",
-    body: new FormData(form)
-  })
-  .then(response => {
-    document.getElementById("status").innerHTML = "Submitted Successfully!";
-    form.reset();
-  })
-  .catch(error => console.error(error));
+fetch(scriptURL,{
+method:"POST",
+body:new FormData(form)
+})
+.then(res=>{
+document.getElementById("status").innerHTML="Submitted Successfully!";
+form.reset();
+})
+.catch(err=>console.log(err));
 
 });
 
 </script>
 
 </body>
-
 </html>
