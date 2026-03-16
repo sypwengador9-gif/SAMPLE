@@ -174,22 +174,31 @@ container.appendChild(row);
 
 }
 
-
 const form = document.getElementById("form");
 
-form.addEventListener("submit", e => {
+form.addEventListener("submit", function(e){
 
 e.preventDefault();
 
-fetch(scriptURL,{
-method:"POST",
-body:new FormData(form)
+const formData = new FormData(form);
+
+fetch(scriptURL, {
+method: "POST",
+body: formData
 })
-.then(res=>{
-document.getElementById("status").innerHTML="✔ Submitted Successfully!";
+.then(response => response.text())
+.then(data => {
+
+document.getElementById("status").innerHTML = "✔ Submitted Successfully!";
 form.reset();
+
 })
-.catch(err=>console.log(err));
+.catch(error => {
+
+document.getElementById("status").innerHTML = "❌ Submission Failed";
+console.error(error);
+
+});
 
 });
 
